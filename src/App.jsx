@@ -3,13 +3,12 @@ import Navbar from "./components/Navbar.jsx";
 import Curso from "./components/Curso.jsx";
 import Footer from "./components/Footer.jsx";
 import RegistroAprendiz from "./components/RegistroAprendiz.jsx";
-
+import PresentacionAprendiz from "./components/PresentacionAprendiz";
 function App() {
-
   function saludar() {
     alert("¡bienvenido al centro nacional colombo aleman!");
-
   }
+
   return (
     <div>
       <Header />
@@ -72,7 +71,10 @@ function App() {
         </section>
       </main>
 
-      <RegistroAprendiz/>
+      <RegistroAprendiz />
+      
+      
+      <PresentacionAprendiz />
 
       <Footer />
     </div>
