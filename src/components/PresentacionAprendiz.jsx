@@ -1,64 +1,63 @@
 import { useState } from "react";
 
-function PresentacionAprendiz() {
-    const [nombre, setNombre] = useState("");
-    const [curso, setCurso] = useState("");
-    const [mensaje, setMensaje] = useState("");
-    
-    function manejarEnvio(evento) {
-        evento.preventDefault();
+function PresentacionAprendiz({ cursos = [] }) {
+  const [nombre, setNombre] = useState("");
+  const [cursoSeleccionado, setCursoSeleccionado] = useState("");
 
-        if (nombre.trim() === "" || curso.trim() === "") {
-            setMensaje(`por favor, completar los campos.`)
-            retunr;
-        
-        }
+  return (
+    <section style={estilos.contenedor}>
+      <h2>Mi presentación</h2>
+      
+      <div style={estilos.campo}>
+        <label>Escribe tu nombre: </label>
+        <input 
+          type="text" 
+          placeholder="Ejemplo: Gabriel"
+          value={nombre}
+          onChange={(e) => setNombre(e.target.value)}
+        />
+      </div>
 
-        setMensaje("¡Formulario enviado correctamente!, hola " + nombre.trim() + ". tu curso de interes es " + curso.trim() + ".");
+      <div style={estilos.campo}>
+        <label>¿Qué curso te interesa? </label>
+        {/* Menú desplegable con los cursos */}
+        <select 
+          value={cursoSeleccionado} 
+          onChange={(e) => setCursoSeleccionado(e.target.value)}
+        >
+          <option value="">-- Selecciona un curso --</option>
+          {cursos.map((curso, index) => (
+            <option key={index} value={curso.nombre}>
+              {curso.nombre}
+            </option>
+          ))}
+        </select>
+      </div>
 
-        setNombre("");
-        setCurso("");
-    }
-
-    return (
-        <div>
-            <h2>Mi presentación</h2>
-
-            <form onSubmit={manejarEnvio}>
-                
-                <label htmlFor="nombrePresentacion">Escribe tu nombre:</label>
-
-                <input
-                    id="nombrePresentacion"
-                    type="text"
-                    value={nombre}
-                    onChange={(evento) => setNombre(evento.target.value)}
-                    placeholder="Ejemplo: Gabriel"
-                />
-
-                <br />
-
-                <label htmlFor="cursoPresentacion">¿Qué curso te interesa?</label>
-
-                <input
-                    id="cursoPresentacion"
-                    type="text"
-                    value={curso}
-                    onChange={(evento) => setCurso(evento.target.value)}
-                    placeholder="Ejemplo: React"
-                />
-
-                <br />
-                <br />
-                <button type="submit">
-                    Enviar formulario
-                </button>
-            </form>
-            {mensaje !== "" && (
-    <p>{mensaje}</p>
-)}
-        </div>
-    );
+      {nombre && cursoSeleccionado && (
+        <p style={estilos.mensaje}>
+          ¡Hola <strong>{nombre}</strong>! Has seleccionado el curso de <strong>{cursoSeleccionado}</strong>.
+        </p>
+      )}
+    </section>
+  );
 }
+
+const estilos = {
+  contenedor: {
+    padding: "20px",
+    margin: "20px 0",
+    border: "1px solid #ddd",
+    borderRadius: "8px"
+  },
+  campo: {
+    margin: "10px 0"
+  },
+  mensaje: {
+    marginTop: "15px",
+    color: "#003366",
+    fontWeight: "bold"
+  }
+};
 
 export default PresentacionAprendiz;

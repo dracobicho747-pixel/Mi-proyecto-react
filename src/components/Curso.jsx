@@ -1,51 +1,59 @@
 import { useState } from "react";
 
-function Curso(props) {
-    const [interesados, setInteresados] = useState(0);
-    const [registrar, setRegistrar] = useState(0);
+function Curso({ nombre, descripcion, temas }) {
+  // Estado para saber si la descripción está abierta/desplegada
+  const [mostrarInfo, setMostrarInfo] = useState(false);
 
-    function agregarInteresado() {
-        setInteresados((prevInteresados) => prevInteresados + 1);
-    }
+  return (
+    <div style={estilos.card}>
+      <h3>{nombre}</h3>
 
-    function agregarRegistrar() {
-        setRegistrar((prevRegistrar) => prevRegistrar + 1);
-    }
+      {/* Botón único para desplegar u ocultar detalles */}
+      <button 
+        style={estilos.boton} 
+        onClick={() => setMostrarInfo(!mostrarInfo)}
+      >
+        {mostrarInfo ? "Ocultar descripción 🔼" : "Ver descripción 🔽"}
+      </button>
 
-    function mostrarmensaje() {
-        alert(`¡Bienvenido al curso de ${props.nombre}!`);
-    }
-
-    function inscribirme() {
-        alert(`¡Inscrito al curso de ${props.nombre}!`);
-    }
-
-    return (
-        <div>
-            <h3>{props.nombre}</h3>
-            <p>{props.descripcion}</p>
-
-            <p>Personas interesadas: {interesados}</p>
-            
-            <p>Personas registradas: {registrar}</p>
-
-            <button onClick={mostrarmensaje}>
-                ver informacion
-            </button>
-
-            <button onClick={inscribirme}>
-                inscribirme
-            </button>
-
-            <button onClick={agregarInteresado}>
-                Me interesa
-            </button>
-            
-            <button onClick={agregarRegistrar}>
-                Registrado
-            </button>
+      {/* Solo se muestra la descripción si mostrarInfo es true */}
+      {mostrarInfo && (
+        <div style={estilos.detalles}>
+          <p>{descripcion}</p>
+          {temas && (
+            <ul>
+              {temas.map((tema, i) => (
+                <li key={i}>{tema}</li>
+              ))}
+            </ul>
+          )}
         </div>
-    );
+      )}
+    </div>
+  );
 }
+
+const estilos = {
+  card: {
+    border: "1px solid #ccc",
+    borderRadius: "8px",
+    padding: "15px",
+    margin: "10px 0",
+    backgroundColor: "#fff"
+  },
+  boton: {
+    padding: "8px 15px",
+    backgroundColor: "#003366",
+    color: "#fff",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer"
+  },
+  detalles: {
+    marginTop: "12px",
+    paddingTop: "10px",
+    borderTop: "1px solid #eee"
+  }
+};
 
 export default Curso;
