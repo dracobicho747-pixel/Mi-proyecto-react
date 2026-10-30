@@ -1,43 +1,22 @@
-import { useEffect, useState } from "react";
-
-function Aprendices() {
-  const [aprendices, setAprendices] = useState([]);
-  const [cargando, setCargando] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((respuesta) => {
-        if (!respuesta.ok) {
-          throw new Error("No se pudo consultar la información.");
-        }
-        return respuesta.json();
-      })
-      .then((datos) => {
-        setAprendices(datos);
-      })
-      .catch(() => {
-        setError("No fue posible cargar los datos. Intenta nuevamente.");
-      })
-      .finally(() => {
-        setCargando(false);
-      });
-  }, []);
-
+// src/pages/Aprendiz.jsx
+function Aprendiz({ aprendices, cargando }) {
   return (
-    <section>
-      <h2>Aprendices (datos de prueba)</h2>
+    <section style={{ padding: "1rem" }}>
+      <h2>Lista de Aprendices (API + Registrados)</h2>
 
       {cargando && <p>Cargando información...</p>}
-      {error && <p>{error}</p>}
 
-      {!cargando && !error && (
-        <div>
+      {!cargando && aprendices.length === 0 && (
+        <p>No hay aprendices registrados todavía.</p>
+      )}
+
+      {!cargando && aprendices.length > 0 && (
+        <div style={{ display: "grid", gap: "1rem", marginTop: "1rem" }}>
           {aprendices.map((aprendiz) => (
-            <article key={aprendiz.id}>
+            <article key={aprendiz.id} style={{ border: "1px solid #ccc", padding: "1rem", borderRadius: "8px" }}>
               <h3>{aprendiz.name}</h3>
-              <p>Correo: {aprendiz.email}</p>
-              <p>Ciudad: {aprendiz.address.city}</p>
+              <p><strong>Correo:</strong> {aprendiz.email}</p>
+              <p><strong>Ciudad:</strong> {aprendiz.address?.city || "Ciudad no especificada"}</p>
             </article>
           ))}
         </div>
@@ -46,4 +25,4 @@ function Aprendices() {
   );
 }
 
-export default Aprendices;
+export default Aprendiz;
